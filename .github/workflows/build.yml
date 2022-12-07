@@ -39,4 +39,4 @@ jobs:
         context: ./backend
         file: ./backend/Containerfile
         push: true
-        tags: ${{ env.IMAGE_REGISTRY }}/frontend:${{ github.sha }}
+        tags: ${{ env.IMAGE_REGISTRY }}/backend:${{ github.sha }}
