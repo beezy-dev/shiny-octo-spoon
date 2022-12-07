@@ -1,0 +1,40 @@
+name: container image build
+
+on: workflow_dispatch
+
+env:
+  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+  REGISTRY_USERN: ${{ github.actor }}
+  REGISTRY_USERP: ${{ secret.GITHUB_TOKEN }}
+
+jobs: 
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions: 
+      content: read
+      packages: write
+
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846
+
+    - name: Log in to ghcr.io
+      uses: redhat-actions/podman-login@v1
+      with:
+        registry: ${{ env.IMAGE_REGISTRY }}
+        username: ${{ env.REGISTRY_USERN }}
+        password: ${{ env.REGISTRY_USERP }}
+
+    - name: build and push frontend
+      uses: docker/build-push-action@9472e9021074a3cb3279ba431598b8836d40433f
+      with:
+        context: /frontend/.
+        push: true
+        tags: ${{ env.IMAGE_REGISTRY }}/frontend:${{ github.sha }}
+
+    - name: build and push backend
+      uses: docker/build-push-action@9472e9021074a3cb3279ba431598b8836d40433f
+      with: 
+        context: /backend/.
+        push: true
+        tags: ${{ env.IMAGE_REGISTRY }}/frontend:${{ github.sha }}
