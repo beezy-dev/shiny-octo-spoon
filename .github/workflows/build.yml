@@ -48,3 +48,11 @@ jobs:
         file: ./frontend/Containerfile-ubi
         push: true
         tags: ${{ env.IMAGE_REGISTRY }}/frontend-ubi:${{ github.sha }}
+
+    - name: build and push backend (ubi)
+      uses: docker/build-push-action@9472e9021074a3cb3279ba431598b8836d40433f
+      with:
+        context: ./backend
+        file: ./backend/Containerfile-ubi
+        push: true
+        tags: ${{ env.IMAGE_REGISTRY }}/backend-ubi:${{ github.sha }}
