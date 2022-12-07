@@ -28,13 +28,15 @@ jobs:
     - name: build and push frontend
       uses: docker/build-push-action@9472e9021074a3cb3279ba431598b8836d40433f
       with:
-        context: "{{defaultContext}}:frontend"
+        context: ./frontend
+        file: ./frontend/Containerfile
         push: true
         tags: ${{ env.IMAGE_REGISTRY }}/frontend:${{ github.sha }}
 
     - name: build and push backend
       uses: docker/build-push-action@9472e9021074a3cb3279ba431598b8836d40433f
       with: 
-        context: "{{defaultContext}}:backend"
+        context: ./backend
+        file: ./backend/Containerfile
         push: true
         tags: ${{ env.IMAGE_REGISTRY }}/frontend:${{ github.sha }}
