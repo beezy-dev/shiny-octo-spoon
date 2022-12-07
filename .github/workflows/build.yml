@@ -25,7 +25,7 @@ jobs:
         username: ${{ env.REGISTRY_USERN }}
         password: ${{ env.REGISTRY_USERP }}
 
-    - name: build and push frontend
+    - name: build and push frontend (fedora)
       uses: docker/build-push-action@9472e9021074a3cb3279ba431598b8836d40433f
       with:
         context: ./frontend
@@ -33,10 +33,18 @@ jobs:
         push: true
         tags: ${{ env.IMAGE_REGISTRY }}/frontend:${{ github.sha }}
 
-    - name: build and push backend
+    - name: build and push backend (fedora)
       uses: docker/build-push-action@9472e9021074a3cb3279ba431598b8836d40433f
       with: 
         context: ./backend
         file: ./backend/Containerfile
         push: true
         tags: ${{ env.IMAGE_REGISTRY }}/backend:${{ github.sha }}
+
+    - name: build and push frontend (ubi)
+      uses: docker/build-push-action@9472e9021074a3cb3279ba431598b8836d40433f
+      with:
+        context: ./frontend
+        file: ./frontend/Containerfile-ubi
+        push: true
+        tags: ${{ env.IMAGE_REGISTRY }}/frontend-ubi:${{ github.sha }}
